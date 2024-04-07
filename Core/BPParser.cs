@@ -169,7 +169,9 @@ public class BPParser
     {
         if (ProtState != ProtocolState.Method)
         {
-            Errors.Add(new ParserError(ParserErrorType.ParserIsDead, "Something is wrong with the parser!"));
+            Errors.Add(new ParserError(
+                ParserErrorType.ParserIsDead, 
+                "Something is wrong with the parser!"));
             State = ParserState.Unkown;
             return;
         }
@@ -213,7 +215,9 @@ public class BPParser
     {
         if (ProtState != ProtocolState.Resource)
         {
-            Errors.Add(new ParserError(ParserErrorType.ParserIsDead, "Something is wrong with the parser!"));
+            Errors.Add(new ParserError(
+                ParserErrorType.ParserIsDead, 
+                "Something is wrong with the parser!"));
             State = ParserState.Unkown;
             return;
         }
