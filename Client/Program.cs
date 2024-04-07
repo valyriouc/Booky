@@ -1,4 +1,4 @@
-﻿namespace Client;
+﻿namespace Booky.Client;
 
 class Program
 {
