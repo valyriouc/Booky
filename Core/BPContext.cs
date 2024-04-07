@@ -2,6 +2,7 @@
 
 public struct BPContext
 {
+
     public BPMethod Method { get; }
 
     public string Resource { get; }
@@ -22,4 +23,5 @@ public struct BPContext
         Body = body;
     }
 
+    public void SendResponse()
 }
