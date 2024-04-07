@@ -38,7 +38,7 @@ public delegate void OnParserSuccess(
 
 public delegate void OnParserError(
     BPContext context,
-    IEnumerable<ParserError> errors);
+    List<ParserError> errors);
 
 public class BPParser
 {
@@ -256,7 +256,7 @@ public class BPParser
             {
                 Errors.Add(new ParserError(
                     ParserErrorType.Format,
-                    "Expected newline after resource!"));
+                    "Expected newline after header end!"));
                 State = ParserState.Unkown;
                 return;
             }
