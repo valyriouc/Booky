@@ -7,4 +7,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Booky.Core.csproj" />
+  </ItemGroup>
+
 </Project>

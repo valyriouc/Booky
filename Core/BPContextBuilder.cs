@@ -44,8 +44,8 @@ public class BPContextBuilder
         return this;
     }
 
-    public BPContext Build() => new BPContext(Method, Resource, Headers, Body);
+    public BPRequest Build() => new BPRequest(Method, Resource, Headers, Body);
     
 
-    public static BPContext BuildErrorContext() => new BPContext();
+    public static BPRequest BuildErrorContext() => new BPRequest();
 }

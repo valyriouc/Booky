@@ -1,6 +1,6 @@
 ﻿namespace Booky.Core;
 
-public struct BPContext
+public struct BPRequest
 {
 
     public BPMethod Method { get; }
@@ -11,7 +11,7 @@ public struct BPContext
 
     public Stream Body { get; }
 
-    internal BPContext(
+    internal BPRequest(
         BPMethod method,
         string resource,
         List<(string, string)> headers,
@@ -23,5 +23,4 @@ public struct BPContext
         Body = body;
     }
 
-    public void SendResponse()
 }

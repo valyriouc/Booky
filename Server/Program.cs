@@ -75,12 +75,12 @@ internal class Program
         client.Close();
     }
 
-    static void HandleFailure(BPContext context, List<ParserError> errors)
+    static void HandleFailure(BPRequest context, List<ParserError> errors)
     {
 
     }
 
-    static void HandleSuccess(BPContext context)
+    static void HandleSuccess(BPRequest context)
     {
 
     }

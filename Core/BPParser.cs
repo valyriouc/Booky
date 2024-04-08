@@ -19,10 +19,10 @@ public enum ParserErrorType
 }
 
 public delegate void OnParserSuccess(
-    BPContext context);
+    BPRequest context);
 
 public delegate void OnParserError(
-    BPContext context,
+    BPRequest context,
     List<ParserError> errors);
 
 public class BPParser
@@ -65,7 +65,7 @@ public class BPParser
     private int BufferPos { get; set; } = 0;
 
     // Parser result 
-    public BPContextBuilder Builder { get; init; }
+    public BPContextBuilder? Builder { get; init; }
 
     public BPParser(Stream stream)
     {
