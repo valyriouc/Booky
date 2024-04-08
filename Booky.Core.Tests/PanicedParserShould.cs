@@ -20,16 +20,19 @@ public class PanicedParserShould
         BPParser parser = new BPParser(new MemoryStream(Encoding.UTF8.GetBytes(payload)));
 
         bool errorCalled = false;
-        parser.WithErrorHandler((context, errors) =>
+        parser.WithErrorHandler(async (errors) =>
         {
             errorCalled = true;
+            await Task.CompletedTask;
         });
 
         bool successCalled = false;
 
-        parser.WithSuccessHandler((context) =>
+        parser.WithSuccessHandler(async (context) =>
         {
             successCalled = true;
+
+            await Task.CompletedTask;
         });
 
         parser.Parse();
@@ -53,10 +56,12 @@ public class PanicedParserShould
 
         BPParser parser = new BPParser(new MemoryStream(Encoding.UTF8.GetBytes(payload)));
 
-        parser.WithErrorHandler((context, errors) =>
+        parser.WithErrorHandler(async (errors) =>
         {
             Assert.Equal(ParserErrorType.UnkownMethod, errors[0].Type);
             Assert.Equal("This method is not supported!", errors[0].Message);
+
+            await Task.CompletedTask;
         });
 
         parser.Parse();
@@ -77,10 +82,12 @@ public class PanicedParserShould
 
         BPParser parser = new BPParser(new MemoryStream(Encoding.UTF8.GetBytes(payload)));
 
-        parser.WithErrorHandler((context, errors) =>
+        parser.WithErrorHandler(async (errors) =>
         {
             Assert.Equal(ParserErrorType.Format, errors[0].Type);
             Assert.Equal("Expected space after method!", errors[0].Message);
+
+            await Task.CompletedTask;
         });
 
         parser.Parse();
@@ -101,10 +108,12 @@ public class PanicedParserShould
 
         BPParser parser = new BPParser(new MemoryStream(Encoding.UTF8.GetBytes(payload)));
 
-        parser.WithErrorHandler((context, errors) =>
+        parser.WithErrorHandler(async (context, errors) =>
         {
             Assert.Equal(ParserErrorType.Format, errors[0].Type);
             Assert.Equal("Expected newline after resource!", errors[0].Message);
+
+            await Task.CompletedTask;
         });
 
         parser.Parse();
@@ -125,10 +134,12 @@ public class PanicedParserShould
 
         BPParser parser = new BPParser(new MemoryStream(Encoding.UTF8.GetBytes(payload)));
 
-        parser.WithErrorHandler((context, errors) =>
+        parser.WithErrorHandler(async (errors) =>
         {
             Assert.Equal(ParserErrorType.Format, errors[0].Type);
             Assert.Equal("Expected newline after header end!", errors[0].Message);
+
+            await Task.CompletedTask;
         });
 
         parser.Parse();
@@ -149,10 +160,12 @@ public class PanicedParserShould
 
         BPParser parser = new BPParser(new MemoryStream(Encoding.UTF8.GetBytes(payload)));
 
-        parser.WithErrorHandler((context, errors) =>
+        parser.WithErrorHandler(async (errors) =>
         {
             Assert.Equal(ParserErrorType.Format, errors[0].Type);
             Assert.Equal("Expected newline after header!", errors[0].Message);
+
+            await Task.CompletedTask;
         });
 
         parser.Parse();

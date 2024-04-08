@@ -24,15 +24,19 @@ public class BPParserSuccessShould
         BPParser parser = new BPParser(new MemoryStream(Encoding.UTF8.GetBytes(payload)));
 
         bool calledSuccess = false;
-        parser.WithSuccessHandler((context) =>
+        parser.WithSuccessHandler(async (context) =>
         {
             calledSuccess = true;
+            await Task.CompletedTask;
+
         });
 
         bool calledFailure = false;
-        parser.WithErrorHandler((context, errors) =>
+        parser.WithErrorHandler(async (context, errors) =>
         {
             calledFailure = true;
+
+            await Task.CompletedTask;
         });
 
         parser.Parse();
@@ -62,10 +66,12 @@ public class BPParserSuccessShould
         BPParser parser = new BPParser(new MemoryStream(Encoding.UTF8.GetBytes(payload)));
 
         bool calledSuccess = false;
-        parser.WithSuccessHandler((context) =>
+        parser.WithSuccessHandler(async (context) =>
         {
             calledSuccess = true;
             Assert.Equal(Enum.Parse<BPMethod>(method), context.Method);
+
+            await Task.CompletedTask;
         });
 
         parser.Parse();
@@ -94,10 +100,12 @@ public class BPParserSuccessShould
         BPParser parser = new BPParser(new MemoryStream(Encoding.UTF8.GetBytes(payload)));
 
         bool calledSuccess = false;
-        parser.WithSuccessHandler((context) =>
+        parser.WithSuccessHandler(async (context) =>
         {
             calledSuccess = true;
             Assert.Equal(resource, context.Resource);
+
+            await Task.CompletedTask;   
         });
 
         parser.Parse();
@@ -125,13 +133,15 @@ public class BPParserSuccessShould
         BPParser parser = new BPParser(new MemoryStream(Encoding.UTF8.GetBytes(payload)));
 
         bool calledSuccess = false;
-        parser.WithSuccessHandler((context) =>
+        parser.WithSuccessHandler(async (context) =>
         {
             calledSuccess = true;
             Assert.Contains(("Encoding", "UTF8"), context.Headers);
             Assert.Contains(("Custom", "header"), context.Headers);
             Assert.Contains(("Key", "value"), context.Headers);
             Assert.Contains(("Content-Type", "json"), context.Headers);
+
+            await Task.CompletedTask;
 
         });
 
@@ -168,7 +178,7 @@ public class BPParserSuccessShould
             """;
 
         bool calledSuccess = false;
-        parser.WithSuccessHandler((context) =>
+        parser.WithSuccessHandler(async (context) =>
         {
             calledSuccess = true;
 
@@ -177,6 +187,8 @@ public class BPParserSuccessShould
             using StreamReader sr = new(context.Body);
             
             Assert.Equal(expected, sr.ReadToEnd());
+
+            await Task.CompletedTask;
         });
 
         parser.Parse();

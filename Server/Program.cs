@@ -55,33 +55,76 @@ internal class Program
             TcpClient tcpClient = await listener.AcceptTcpClientAsync();
             Console.WriteLine("Received a connection!");
 
-            Task task = Task.Run(() => HandleRequest(tcpClient));
+            Task task = Task.Run(async () => await new SimpleBPServer(tcpClient).ToWhatHasToBeDoneAsync());
 
             tasks.Add(task);    
         }
 
         await Task.WhenAll(tasks);
     }
+}
 
-    static async Task HandleRequest(TcpClient client)
+internal class SimpleBPServer : IDisposable
+{
+    public TcpClient Connection { get; init; }
+
+    public SimpleBPServer(TcpClient connection)
     {
-        BPParser parser = new BPParser(client.GetStream());
+        Connection = connection;
+    }
 
-        parser.WithErrorHandler(HandleFailure);
-        parser.WithSuccessHandler(HandleSuccess);
+    public async Task ToWhatHasToBeDoneAsync()
+    {
+        BPParser parser = new BPParser(Connection.GetStream());
+
+        parser.WithSuccessHandler(DoOnSuccessAsync);
+        parser.WithErrorHandler(DoOnFailureAsync);
 
         parser.Parse();
-
-        client.Close();
     }
 
-    static void HandleFailure(BPRequest context, List<ParserError> errors)
+    private async Task DoOnSuccessAsync(BPRequest request)
+    {
+        switch (request.Method)
+        {
+            case BPMethod.SYC:
+                await HandleSyncRequestAsync(request);
+                break;
+            case BPMethod.UPL:
+                await HandleUploadRequestAsync(request);
+                break;
+            case BPMethod.DWN:
+                await HandleDownloadRequestAsync(request);
+                break;
+            default:
+                Console.WriteLine("Something went wrong. This case should be catched by the parser!");
+
+                break;
+        }
+    }
+
+    private async Task DoOnFailureAsync(List<ParserError> errors)
     {
 
     }
 
-    static void HandleSuccess(BPRequest context)
+    protected async Task HandleSyncRequestAsync(BPRequest request)
     {
 
+    }
+
+    protected async Task HandleUploadRequestAsync(BPRequest request)
+    {
+
+    }
+
+    protected async Task HandleDownloadRequestAsync(BPRequest request)
+    {
+
+    }
+
+    public void Dispose()
+    {
+        Connection.Close();
     }
 }

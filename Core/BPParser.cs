@@ -18,11 +18,10 @@ public enum ParserErrorType
     ParserIsDead
 }
 
-public delegate void OnParserSuccess(
+public delegate Task OnParserSuccess(
     BPRequest context);
 
-public delegate void OnParserError(
-    BPRequest context,
+public delegate Task OnParserError(
     List<ParserError> errors);
 
 public class BPParser
@@ -338,6 +337,6 @@ public class BPParser
 
     private void InvokeFailure()
     {
-        ErrorHandler?.Invoke(BPContextBuilder.BuildErrorContext(), Errors); 
+        ErrorHandler?.Invoke(Errors); 
     }
 }
